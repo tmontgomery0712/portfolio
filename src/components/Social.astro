@@ -1,0 +1,43 @@
+---
+import Icon from "../components/Icon.astro";
+import type { iconPaths } from "./IconPaths";
+const iconLinks: {
+  label: string;
+  href: string;
+  icon: keyof typeof iconPaths;
+}[] = [
+  {
+    label: "twitter",
+    href: "https://twitter.com/tmontgomery93",
+    icon: "twitter-logo",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/tmontgomery0712",
+    icon: "github-logo",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/tmontgomery93",
+    icon: "instagram-logo",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/trevor-montgomery-08450910a/",
+    icon: "linkedin-logo",
+  },
+];
+---
+
+{
+  iconLinks.map(({ href, icon, label }) => (
+    <a
+      target="_blank"
+      href={href}
+      class="pr-2 pt-4 hover:-translate-y-1 transition-transform cursor-pointer"
+    >
+      <span class="sr-only">{label}</span>
+      <Icon icon={icon} />
+    </a>
+  ))
+}

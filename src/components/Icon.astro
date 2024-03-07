@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { iconPaths } from "./IconPaths";
+
+interface Props {
+  icon: keyof typeof iconPaths;
+}
+
+const { icon } = Astro.props;
+const iconPath = iconPaths[icon];
+
+const attrs: HTMLAttributes<"svg"> = {};
+
+const gradientId =
+  "icon-gradient-" + Math.round(Math.random() * 10e12).toString(36);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="30"
+  height="30"
+  viewBox="0 0 256 256"
+  aria-hidden="true"
+  stroke="#6DB33F"
+  fill="#6DB33F"
+  {...attrs}
+>
+  <g set:html={iconPath} />
+</svg>
+
+<style>
+  svg {
+    vertical-align: middle;
+  }
+</style>

@@ -1,0 +1,27 @@
+.primaryBg {
+    background-color: #6DB33F;
+}
+
+.footerBg {
+    background-color: #262A2D;
+}
+
+.primaryColor {
+    color: #6DB33F;
+}
+
+.primaryBorderColor {
+    border-color: #6DB33F;;
+}
+
+.darkBg {
+    background-color: #1B1F23;
+}
+
+.cardBg {
+    background-color: #262A2D;
+}
+
+body {
+    background-color: #1B1F23;
+}

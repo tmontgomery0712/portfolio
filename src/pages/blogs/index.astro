@@ -1,0 +1,42 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import SearchForm from "../../components/SearchForm.astro";
+import Pagination from "../../components/Pagination.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import PostCard from "../../components/PostCard.astro";
+import { BLOGS_PER_PAGE } from "../../constants";
+
+const currentPage: number | null = +Astro.url.searchParams.get("page")! || 1;
+
+const allBlogPosts: CollectionEntry<"blog">[] = (
+  await getCollection("blog")
+).sort(
+  (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const totalPages: number = Math.ceil(allBlogPosts.length / BLOGS_PER_PAGE);
+
+const blogsForPage: CollectionEntry<"blog">[] = allBlogPosts.slice(
+  (currentPage - 1) * BLOGS_PER_PAGE,
+  currentPage * BLOGS_PER_PAGE
+);
+---
+
+<!-- subTitle="Documenting my learning journey so that you too may learn. Anything from Spring, Angular, Ionic, Career Development, & Developer Health." -->
+<MainLayout>
+  <h1 class="text-4xl text-white font-bold pb-3 mb-3">All Blog Posts</h1>
+  <SearchForm />
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {blogsForPage.map((post) => <PostCard post={post} />)}
+  </div>
+
+  <!-- Pagination -->
+  <Pagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    disablePrevious={currentPage === 1}
+    disableNext={currentPage === totalPages}
+  />
+</MainLayout>

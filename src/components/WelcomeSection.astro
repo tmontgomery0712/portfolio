@@ -1,0 +1,25 @@
+---
+import Social from "../components/Social.astro";
+/** Icon links to social media — edit these with links to your profiles! */
+---
+
+<div class="flex flex-col lg:flex-row items-center py-10 text-white">
+  <img
+    class="object-cover lg:w-60 lg:h-60 w-48 h-48 rounded-full"
+    src="/images/hero.jpg"
+  />
+  <div class="m-6 flex flex-col">
+    <div class="text-2xl lg:text-4xl font-semibold mb-2">
+      Hello, I'm Trevor Montgomery
+    </div>
+    <div class="text-gray-300 lg:w-1/2 text-sm lg:text-lg">
+      A full-stack developer with 6 years of experience, dad of 2, and a passion
+      for fitness. This is my personal site where I'll be showcasing my hobby
+      projects as well as writing blog posts that will consist of: tutorials,
+      Spring and Angular content, developer health, and career development.
+    </div>
+    <div class="flex">
+      <Social />
+    </div>
+  </div>
+</div>

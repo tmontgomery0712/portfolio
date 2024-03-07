@@ -1,0 +1,40 @@
+---
+import SearchForm from "../components/SearchForm.astro";
+import MostRecentPost from "../components/MostRecentPost.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { HOMEPAGE_BLOG_LIMIT } from "../constants";
+import PostCard from "./PostCard.astro";
+const allBlogPosts: CollectionEntry<"blog">[] = (
+  await getCollection("blog")
+).sort(
+  (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const mostRecentPost: CollectionEntry<"blog"> = allBlogPosts[0];
+const otherPosts: CollectionEntry<"blog">[] = allBlogPosts.slice(1);
+---
+
+<!-- Top Grid -->
+<div class="pt-12 grid grid-cols-1 gap-5 lg:grid-cols-2">
+  <div>
+    <h1
+      class="text-white text-5xl font-bold mt-4 mb-8 leading-tight xl:text-6xl"
+    >
+      Articles, Stories & Tutorials for Developers
+    </h1>
+    <SearchForm />
+  </div>
+  <!-- Most Recent Article -->
+  <MostRecentPost post={mostRecentPost} />
+</div>
+
+<!-- Main Grid -->
+<div class="pb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    otherPosts
+      .slice(0, HOMEPAGE_BLOG_LIMIT)
+      .map((post) => <PostCard post={post} />)
+  }
+</div>

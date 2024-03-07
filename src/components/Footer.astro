@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { capitalize } from "../utils";
+import Social from "../components/Social.astro";
+
+const allBlogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+const tags: string[] = allBlogPosts.flatMap((post: any) => post.data.tags);
+
+const uniqueTags: string[] = [...new Set(tags)];
+const year = new Date().getFullYear();
+---
+
+<footer class="footerBg text-white">
+  <div class="container mx-auto mt-10 max-w-screen-xl px-8">
+    <div class="grid grid-cols-2 gap-12 sm:grid-cols-3 lg:grid-cols-4">
+      <div class="mt-10">
+        <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+        <ul class="flex flex-col text-white">
+          <li class="mb-2">
+            <a
+              href="/"
+              class="py-2 px-3 text-white rounded md:p-0"
+              aria-current="page">Home</a
+            >
+          </li>
+          <li class="mb-2">
+            <a href="/about" class="py-2 px-3 text-white rounded md:p-0"
+              >About</a
+            >
+          </li>
+          <li class="mb-2">
+            <a href="/blogs" class="py-2 px-3 text-white rounded md:p-0">Blog</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="mt-10">
+        <h3 class="text-xl font-semibold mb-4">Categories</h3>
+        <ul class="text-white text-sm">
+          {
+            uniqueTags.map((tag) => (
+              <li class="mb-2">
+                <a href={"/blogs/tag/" + tag}>#{capitalize(tag)}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="my-10">
+        <h3 class="text-xl font-semibold">Get In Touch</h3>
+        <div class="flex">
+          <Social />
+        </div>
+      </div>
+    </div>
+    <div class="text-center py-10">
+      <span>&copy; {year} Tech With Tmont</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  a:hover {
+    color: #6db33f;
+  }
+</style>

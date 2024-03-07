@@ -1,0 +1,42 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import SearchForm from "../../components/SearchForm.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+const query: string | null = Astro.url.searchParams.get("query");
+
+const allBlogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+// Filter articles based on query
+const searchResults = allBlogPosts.filter((blog) => {
+  const titleMatch: boolean = blog.data.title
+    .toLowerCase()
+    .includes(query!.toLowerCase());
+
+  const tagMatch = blog.data.tags.some((tag) =>
+    tag.toLowerCase().includes(query!.toLowerCase())
+  );
+
+  return titleMatch || tagMatch;
+});
+---
+
+<MainLayout title="Search Results">
+  <a
+    href="/blogs"
+    class="inline-block primaryBg rounded-lg text-white p-3 mb-6 hover:text-gray-900"
+    >All Blog Posts</a
+  >
+
+  <SearchForm />
+
+  <br />
+  <h1 class="text-2xl text-white pb-3 mt-6">
+    Search Results For: <strong>{query}</strong>
+  </h1>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {searchResults.map((post) => <PostCard post={post} />)}
+  </div>
+</MainLayout>
